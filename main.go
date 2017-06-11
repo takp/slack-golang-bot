@@ -3,16 +3,18 @@ package main
 import (
 	"fmt"
 
-	"github.com/nlopes/slack"
 	"github.com/joho/godotenv"
+	"github.com/nlopes/slack"
 	"log"
 	"os"
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
+	if os.Getenv("GOENV") != "production" {
+		err := godotenv.Load()
+		if err != nil {
+			log.Fatal("Error loading .env file")
+		}
 	}
 
 	api := slack.New(os.Getenv("SLACK_TOKEN"))
@@ -37,6 +39,7 @@ func main() {
 
 		case *slack.MessageEvent:
 			fmt.Printf("Message: %v\n", ev)
+			rtm.SendMessage(rtm.NewOutgoingMessage(ev.Text, ev.Channel))
 
 		case *slack.PresenceChangeEvent:
 			fmt.Printf("Presence Change: %v\n", ev)
@@ -53,8 +56,8 @@ func main() {
 
 		default:
 
-		// Ignore other events..
-		// fmt.Printf("Unexpected: %v\n", msg.Data)
+			// Ignore other events..
+			// fmt.Printf("Unexpected: %v\n", msg.Data)
 		}
 	}
 }
