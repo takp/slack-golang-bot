@@ -2,6 +2,14 @@
 
 Slack bot made by Golang
 
+## Environment Variables
+
+```bash
+$ cp .env.defualt .env
+```
+
+Input your slack token to `.env` file.
+
 ## Run in local
 
 ```bash
