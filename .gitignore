@@ -1,0 +1,4 @@
+.idea
+*.iml
+slack-golang-bot
+.env
